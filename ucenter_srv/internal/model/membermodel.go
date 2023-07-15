@@ -1,9 +1,6 @@
 package model
 
-import (
-	"github.com/zeromicro/go-zero/core/stores/cache"
-	"github.com/zeromicro/go-zero/core/stores/sqlx"
-)
+import "github.com/zeromicro/go-zero/core/stores/sqlx"
 
 var _ MemberModel = (*customMemberModel)(nil)
 
@@ -20,8 +17,8 @@ type (
 )
 
 // NewMemberModel returns a model for the database table.
-func NewMemberModel(conn sqlx.SqlConn, c cache.CacheConf, opts ...cache.Option) MemberModel {
+func NewMemberModel(conn sqlx.SqlConn) MemberModel {
 	return &customMemberModel{
-		defaultMemberModel: newMemberModel(conn, c, opts...),
+		defaultMemberModel: newMemberModel(conn),
 	}
 }

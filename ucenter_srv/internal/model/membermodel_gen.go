@@ -9,7 +9,6 @@ import (
 	"strings"
 
 	"github.com/zeromicro/go-zero/core/stores/builder"
-	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"github.com/zeromicro/go-zero/core/stringx"
@@ -20,10 +19,6 @@ var (
 	memberRows                = strings.Join(memberFieldNames, ",")
 	memberRowsExpectAutoSet   = strings.Join(stringx.Remove(memberFieldNames, "`id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), ",")
 	memberRowsWithPlaceHolder = strings.Join(stringx.Remove(memberFieldNames, "`id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), "=?,") + "=?"
-
-	cacheWtcoinMemberIdPrefix          = "cache:wtcoin:member:id:"
-	cacheWtcoinMemberMobilePhonePrefix = "cache:wtcoin:member:mobilePhone:"
-	cacheWtcoinMemberUsernamePrefix    = "cache:wtcoin:member:username:"
 )
 
 type (
@@ -37,7 +32,7 @@ type (
 	}
 
 	defaultMemberModel struct {
-		sqlc.CachedConn
+		conn  sqlx.SqlConn
 		table string
 	}
 
@@ -109,36 +104,23 @@ type (
 	}
 )
 
-func newMemberModel(conn sqlx.SqlConn, c cache.CacheConf, opts ...cache.Option) *defaultMemberModel {
+func newMemberModel(conn sqlx.SqlConn) *defaultMemberModel {
 	return &defaultMemberModel{
-		CachedConn: sqlc.NewConn(conn, c, opts...),
-		table:      "`member`",
+		conn:  conn,
+		table: "`member`",
 	}
 }
 
 func (m *defaultMemberModel) Delete(ctx context.Context, id int64) error {
-	data, err := m.FindOne(ctx, id)
-	if err != nil {
-		return err
-	}
-
-	wtcoinMemberIdKey := fmt.Sprintf("%s%v", cacheWtcoinMemberIdPrefix, id)
-	wtcoinMemberMobilePhoneKey := fmt.Sprintf("%s%v", cacheWtcoinMemberMobilePhonePrefix, data.MobilePhone)
-	wtcoinMemberUsernameKey := fmt.Sprintf("%s%v", cacheWtcoinMemberUsernamePrefix, data.Username)
-	_, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("delete from %s where `id` = ?", m.table)
-		return conn.ExecCtx(ctx, query, id)
-	}, wtcoinMemberIdKey, wtcoinMemberMobilePhoneKey, wtcoinMemberUsernameKey)
+	query := fmt.Sprintf("delete from %s where `id` = ?", m.table)
+	_, err := m.conn.ExecCtx(ctx, query, id)
 	return err
 }
 
 func (m *defaultMemberModel) FindOne(ctx context.Context, id int64) (*Member, error) {
-	wtcoinMemberIdKey := fmt.Sprintf("%s%v", cacheWtcoinMemberIdPrefix, id)
+	query := fmt.Sprintf("select %s from %s where `id` = ? limit 1", memberRows, m.table)
 	var resp Member
-	err := m.QueryRowCtx(ctx, &resp, wtcoinMemberIdKey, func(ctx context.Context, conn sqlx.SqlConn, v any) error {
-		query := fmt.Sprintf("select %s from %s where `id` = ? limit 1", memberRows, m.table)
-		return conn.QueryRowCtx(ctx, v, query, id)
-	})
+	err := m.conn.QueryRowCtx(ctx, &resp, query, id)
 	switch err {
 	case nil:
 		return &resp, nil
@@ -150,15 +132,9 @@ func (m *defaultMemberModel) FindOne(ctx context.Context, id int64) (*Member, er
 }
 
 func (m *defaultMemberModel) FindOneByMobilePhone(ctx context.Context, mobilePhone string) (*Member, error) {
-	wtcoinMemberMobilePhoneKey := fmt.Sprintf("%s%v", cacheWtcoinMemberMobilePhonePrefix, mobilePhone)
 	var resp Member
-	err := m.QueryRowIndexCtx(ctx, &resp, wtcoinMemberMobilePhoneKey, m.formatPrimary, func(ctx context.Context, conn sqlx.SqlConn, v any) (i any, e error) {
-		query := fmt.Sprintf("select %s from %s where `mobile_phone` = ? limit 1", memberRows, m.table)
-		if err := conn.QueryRowCtx(ctx, &resp, query, mobilePhone); err != nil {
-			return nil, err
-		}
-		return resp.Id, nil
-	}, m.queryPrimary)
+	query := fmt.Sprintf("select %s from %s where `mobile_phone` = ? limit 1", memberRows, m.table)
+	err := m.conn.QueryRowCtx(ctx, &resp, query, mobilePhone)
 	switch err {
 	case nil:
 		return &resp, nil
@@ -170,15 +146,9 @@ func (m *defaultMemberModel) FindOneByMobilePhone(ctx context.Context, mobilePho
 }
 
 func (m *defaultMemberModel) FindOneByUsername(ctx context.Context, username string) (*Member, error) {
-	wtcoinMemberUsernameKey := fmt.Sprintf("%s%v", cacheWtcoinMemberUsernamePrefix, username)
 	var resp Member
-	err := m.QueryRowIndexCtx(ctx, &resp, wtcoinMemberUsernameKey, m.formatPrimary, func(ctx context.Context, conn sqlx.SqlConn, v any) (i any, e error) {
-		query := fmt.Sprintf("select %s from %s where `username` = ? limit 1", memberRows, m.table)
-		if err := conn.QueryRowCtx(ctx, &resp, query, username); err != nil {
-			return nil, err
-		}
-		return resp.Id, nil
-	}, m.queryPrimary)
+	query := fmt.Sprintf("select %s from %s where `username` = ? limit 1", memberRows, m.table)
+	err := m.conn.QueryRowCtx(ctx, &resp, query, username)
 	switch err {
 	case nil:
 		return &resp, nil
@@ -190,39 +160,15 @@ func (m *defaultMemberModel) FindOneByUsername(ctx context.Context, username str
 }
 
 func (m *defaultMemberModel) Insert(ctx context.Context, data *Member) (sql.Result, error) {
-	wtcoinMemberIdKey := fmt.Sprintf("%s%v", cacheWtcoinMemberIdPrefix, data.Id)
-	wtcoinMemberMobilePhoneKey := fmt.Sprintf("%s%v", cacheWtcoinMemberMobilePhonePrefix, data.MobilePhone)
-	wtcoinMemberUsernameKey := fmt.Sprintf("%s%v", cacheWtcoinMemberUsernamePrefix, data.Username)
-	ret, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, memberRowsExpectAutoSet)
-		return conn.ExecCtx(ctx, query, data.AliNo, data.QrCodeUrl, data.AppealSuccessTimes, data.AppealTimes, data.ApplicationTime, data.Avatar, data.Bank, data.Branch, data.CardNo, data.CertifiedBusinessApplyTime, data.CertifiedBusinessCheckTime, data.CertifiedBusinessStatus, data.ChannelId, data.Email, data.FirstLevel, data.GoogleDate, data.GoogleKey, data.GoogleState, data.IdNumber, data.InviterId, data.IsChannel, data.JyPassword, data.LastLoginTime, data.City, data.Country, data.District, data.Province, data.LoginCount, data.LoginLock, data.Margin, data.MemberLevel, data.MobilePhone, data.Password, data.PromotionCode, data.PublishAdvertise, data.RealName, data.RealNameStatus, data.RegistrationTime, data.Salt, data.SecondLevel, data.SignInAbility, data.Status, data.ThirdLevel, data.Token, data.TokenExpireTime, data.TransactionStatus, data.TransactionTime, data.Transactions, data.Username, data.QrWeCodeUrl, data.Wechat, data.Local, data.Integration, data.MemberGradeId, data.KycStatus, data.GeneralizeTotal, data.InviterParentId, data.SuperPartner, data.KickFee, data.Power, data.TeamLevel, data.TeamPower, data.MemberLevelId)
-	}, wtcoinMemberIdKey, wtcoinMemberMobilePhoneKey, wtcoinMemberUsernameKey)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, memberRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.AliNo, data.QrCodeUrl, data.AppealSuccessTimes, data.AppealTimes, data.ApplicationTime, data.Avatar, data.Bank, data.Branch, data.CardNo, data.CertifiedBusinessApplyTime, data.CertifiedBusinessCheckTime, data.CertifiedBusinessStatus, data.ChannelId, data.Email, data.FirstLevel, data.GoogleDate, data.GoogleKey, data.GoogleState, data.IdNumber, data.InviterId, data.IsChannel, data.JyPassword, data.LastLoginTime, data.City, data.Country, data.District, data.Province, data.LoginCount, data.LoginLock, data.Margin, data.MemberLevel, data.MobilePhone, data.Password, data.PromotionCode, data.PublishAdvertise, data.RealName, data.RealNameStatus, data.RegistrationTime, data.Salt, data.SecondLevel, data.SignInAbility, data.Status, data.ThirdLevel, data.Token, data.TokenExpireTime, data.TransactionStatus, data.TransactionTime, data.Transactions, data.Username, data.QrWeCodeUrl, data.Wechat, data.Local, data.Integration, data.MemberGradeId, data.KycStatus, data.GeneralizeTotal, data.InviterParentId, data.SuperPartner, data.KickFee, data.Power, data.TeamLevel, data.TeamPower, data.MemberLevelId)
 	return ret, err
 }
 
 func (m *defaultMemberModel) Update(ctx context.Context, newData *Member) error {
-	data, err := m.FindOne(ctx, newData.Id)
-	if err != nil {
-		return err
-	}
-
-	wtcoinMemberIdKey := fmt.Sprintf("%s%v", cacheWtcoinMemberIdPrefix, data.Id)
-	wtcoinMemberMobilePhoneKey := fmt.Sprintf("%s%v", cacheWtcoinMemberMobilePhonePrefix, data.MobilePhone)
-	wtcoinMemberUsernameKey := fmt.Sprintf("%s%v", cacheWtcoinMemberUsernamePrefix, data.Username)
-	_, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, memberRowsWithPlaceHolder)
-		return conn.ExecCtx(ctx, query, newData.AliNo, newData.QrCodeUrl, newData.AppealSuccessTimes, newData.AppealTimes, newData.ApplicationTime, newData.Avatar, newData.Bank, newData.Branch, newData.CardNo, newData.CertifiedBusinessApplyTime, newData.CertifiedBusinessCheckTime, newData.CertifiedBusinessStatus, newData.ChannelId, newData.Email, newData.FirstLevel, newData.GoogleDate, newData.GoogleKey, newData.GoogleState, newData.IdNumber, newData.InviterId, newData.IsChannel, newData.JyPassword, newData.LastLoginTime, newData.City, newData.Country, newData.District, newData.Province, newData.LoginCount, newData.LoginLock, newData.Margin, newData.MemberLevel, newData.MobilePhone, newData.Password, newData.PromotionCode, newData.PublishAdvertise, newData.RealName, newData.RealNameStatus, newData.RegistrationTime, newData.Salt, newData.SecondLevel, newData.SignInAbility, newData.Status, newData.ThirdLevel, newData.Token, newData.TokenExpireTime, newData.TransactionStatus, newData.TransactionTime, newData.Transactions, newData.Username, newData.QrWeCodeUrl, newData.Wechat, newData.Local, newData.Integration, newData.MemberGradeId, newData.KycStatus, newData.GeneralizeTotal, newData.InviterParentId, newData.SuperPartner, newData.KickFee, newData.Power, newData.TeamLevel, newData.TeamPower, newData.MemberLevelId, newData.Id)
-	}, wtcoinMemberIdKey, wtcoinMemberMobilePhoneKey, wtcoinMemberUsernameKey)
+	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, memberRowsWithPlaceHolder)
+	_, err := m.conn.ExecCtx(ctx, query, newData.AliNo, newData.QrCodeUrl, newData.AppealSuccessTimes, newData.AppealTimes, newData.ApplicationTime, newData.Avatar, newData.Bank, newData.Branch, newData.CardNo, newData.CertifiedBusinessApplyTime, newData.CertifiedBusinessCheckTime, newData.CertifiedBusinessStatus, newData.ChannelId, newData.Email, newData.FirstLevel, newData.GoogleDate, newData.GoogleKey, newData.GoogleState, newData.IdNumber, newData.InviterId, newData.IsChannel, newData.JyPassword, newData.LastLoginTime, newData.City, newData.Country, newData.District, newData.Province, newData.LoginCount, newData.LoginLock, newData.Margin, newData.MemberLevel, newData.MobilePhone, newData.Password, newData.PromotionCode, newData.PublishAdvertise, newData.RealName, newData.RealNameStatus, newData.RegistrationTime, newData.Salt, newData.SecondLevel, newData.SignInAbility, newData.Status, newData.ThirdLevel, newData.Token, newData.TokenExpireTime, newData.TransactionStatus, newData.TransactionTime, newData.Transactions, newData.Username, newData.QrWeCodeUrl, newData.Wechat, newData.Local, newData.Integration, newData.MemberGradeId, newData.KycStatus, newData.GeneralizeTotal, newData.InviterParentId, newData.SuperPartner, newData.KickFee, newData.Power, newData.TeamLevel, newData.TeamPower, newData.MemberLevelId, newData.Id)
 	return err
-}
-
-func (m *defaultMemberModel) formatPrimary(primary any) string {
-	return fmt.Sprintf("%s%v", cacheWtcoinMemberIdPrefix, primary)
-}
-
-func (m *defaultMemberModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn, v, primary any) error {
-	query := fmt.Sprintf("select %s from %s where `id` = ? limit 1", memberRows, m.table)
-	return conn.QueryRowCtx(ctx, v, query, primary)
 }
 
 func (m *defaultMemberModel) tableName() string {
