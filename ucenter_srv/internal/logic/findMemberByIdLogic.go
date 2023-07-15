@@ -3,10 +3,10 @@ package logic
 import (
 	"context"
 	"fmt"
-
 	"ucenter_srv/internal/svc"
 	"ucenter_srv/pb/ucenter"
 
+	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -26,8 +26,12 @@ func NewFindMemberByIdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 
 // 会员查找
 func (l *FindMemberByIdLogic) FindMemberById(in *ucenter.MemberReq) (*ucenter.MemberInfo, error) {
-	// todo: add your logic here and delete this line
-	m, _ := l.svcCtx.MemberModel.FindOne(l.ctx, in.MemberId)
+	m, e := l.svcCtx.MemberModel.FindOne(l.ctx, in.MemberId)
+	if e != nil {
+		return nil, e
+	}
+	resp := &ucenter.MemberInfo{}
+	copier.Copy(resp, m)
 	fmt.Println(m)
-	return &ucenter.MemberInfo{}, nil
+	return resp, nil
 }

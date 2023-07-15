@@ -1,0 +1,9 @@
+Name: ucenter
+Host: 0.0.0.0
+Port: 18888
+
+UCenterSrv:
+  Etcd:
+    Hosts:
+      - 0.0.0.0:2379
+    Key: ucenter.rpc
