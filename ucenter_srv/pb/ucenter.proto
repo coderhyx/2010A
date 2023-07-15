@@ -1,0 +1,189 @@
+syntax = "proto3";
+
+package ucenter;
+
+option go_package = "./ucenter";
+
+message RegReq {
+  string username = 1;
+  string password = 2;
+  CaptchaReq captcha = 3;
+  string phone = 4;
+  string promotion = 5;
+  string code = 6;
+  string country = 7;
+  string superPartner = 8;
+  string ip = 9;
+}
+
+message CaptchaReq {
+  string server = 1;
+  string token = 2;
+}
+
+message RegRes {
+
+}
+
+message NoRes {}
+
+message CodeReq {
+  string phone = 1;
+  string country = 2;
+}
+
+
+message MemberReq {
+  int64 memberId = 3;
+}
+
+
+message MemberInfo {
+  int64 id  = 1;
+  string aliNo  = 2;
+  string qrCodeUrl  = 3;
+  int32 appealSuccessTimes  = 4;
+  int32 appealTimes  = 5;
+  int64 applicationTime  = 6;
+  string avatar  = 7;
+  string bank  = 8;
+  string branch  = 9;
+  string cardNo  = 10;
+  int64 certifiedBusinessApplyTime  = 11;
+  int64 certifiedBusinessCheckTime  = 12;
+  int32 certifiedBusinessStatus  = 13;
+  int32 channelId  = 14;
+  string email  = 15;
+  int32 firstLevel  = 16;
+  int64 googleDate  = 17;
+  string googleKey  = 18;
+  int32 googleState  = 19;
+  string idNumber  = 20;
+  int64 inviterId  = 21;
+  int32 isChannel  = 22;
+  string jyPassword  = 23;
+  int64 lastLoginTime  = 24;
+  string city  = 25;
+  string country  = 26;
+  string district  = 27;
+  string province  = 28;
+  int32 loginCount  = 29;
+  int32 loginLock  = 30;
+  string margin  = 31;
+  int32 memberLevel  = 32;
+  string mobilePhone  = 33;
+  string password  = 34;
+  string promotionCode  = 35;
+  int32 publishAdvertise  = 36;
+  string realName  = 37;
+  int32 realNameStatus  = 38;
+  int64 registrationTime  = 39;
+  string salt  = 40;
+  int32 secondLevel  = 41;
+  int32 signInAbility  = 42;
+  int32 status  = 43;
+  int32 thirdLevel  = 44;
+  string token  = 45;
+  int64 tokenExpireTime  = 46;
+  int32 transactionStatus  = 47;
+  int64 transactionTime  = 48;
+  int32 transactions  = 49;
+  string username  = 50;
+  string qrWeCodeUrl  = 51;
+  string wechat  = 52;
+  string local  = 53;
+  int64 integration  = 54;
+  int64 memberGradeId  = 55;
+  int32 kycStatus  = 56;
+  int64 generalizeTotal  = 57;
+  int64 inviterParentId  = 58;
+  string superPartner  = 59;
+  double kickFee  = 60;
+  double power  = 61;
+  int32 teamLevel  = 62;
+  double teamPower  = 63;
+  int64 memberLevelId  = 64;
+}
+
+message LoginReq {
+  string username = 1;
+  string password = 2;
+  CaptchaReq captcha = 3;
+  string ip = 4;
+}
+
+message LoginRes {
+  string username = 1;
+  string token = 2;
+  string memberLevel = 3;
+  string realName = 4;
+  string country = 5;
+  string avatar = 6;
+  string promotionCode = 7;
+  int64 id = 8;
+  int32 loginCount = 9;
+  string superPartner = 10;
+  int32 memberRate = 11;
+}
+
+message AssetReq {
+  string coinName = 1;
+  string ip = 2;
+  int64 userId = 3;
+}
+
+message Coin{
+  int32 id  = 1;
+  string name  = 2;
+  int32 canAutoWithdraw  = 3;
+  int32 canRecharge  = 4;
+  int32 canTransfer  = 5;
+  int32 canWithdraw  = 6;
+  double cnyRate  = 7;
+  int32 enableRpc  = 8;
+  int32 isPlatformCoin  = 9;
+  double maxTxFee  = 10;
+  double maxWithdrawAmount  = 11;
+  double minTxFee  = 12;
+  double minWithdrawAmount  = 13;
+  string nameCn  = 14;
+  int32 sort  = 15;
+  int32 status  = 16;
+  string unit  = 17;
+  double usdRate  = 18;
+  double withdrawThreshold  = 19;
+  int32 hasLegal  = 20;
+  string coldWalletAddress  = 21;
+  double minerFee  = 22;
+  int32 withdrawScale  = 23;
+  int32 accountType  = 24;
+  string depositAddress  = 25;
+  string infolink  = 26;
+  string information  = 27;
+  double minRechargeAmount  = 28;
+}
+
+message MemberWallet{
+  int64 id  = 1;
+  string address  = 2;
+  double balance  = 3;
+  double frozenBalance  = 4;
+  double releaseBalance  = 5;
+  int32 isLock  = 6;
+  int64 memberId  = 7;
+  int32 version  = 8;
+  Coin coin  = 9;
+  double toReleased  = 10;
+}
+
+service Ucenter {
+  //注册
+  rpc registerByPhone(RegReq) returns(RegRes);
+  rpc sendCode(CodeReq) returns(NoRes);
+  //会员查找
+  rpc FindMemberById(MemberReq) returns(MemberInfo);
+  //登录
+  rpc login(LoginReq) returns(LoginRes);
+  // 
+  rpc findWalletBySymbol(AssetReq) returns(MemberWallet);
+}

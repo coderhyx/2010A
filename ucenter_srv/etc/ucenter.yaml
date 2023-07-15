@@ -1,0 +1,14 @@
+Name: ucenter.rpc
+ListenOn: 0.0.0.0:38080
+Etcd:
+  Hosts:
+  - 0.0.0.0:2379
+  Key: ucenter.rpc
+
+Mysql:
+  DataSource: root:123456@tcp(mysql:3306)/wtcoin?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+
+CacheRedis:
+  - Host: redis:6379
+    Type: node
+    Pass:
