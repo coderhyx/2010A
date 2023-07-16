@@ -19,7 +19,7 @@ type ServiceContext struct {
 func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
 		Config:          c,
-		AuthInterceptor: middleware.NewAuthInterceptorMiddleware().Handle,
+		AuthInterceptor: middleware.NewAuthInterceptorMiddleware(c).Handle,
 		UCenterSrv:      ucenterclient.NewUcenter(zrpc.MustNewClient(c.UCenterSrv)),
 	}
 }

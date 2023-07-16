@@ -8,4 +8,10 @@ import (
 type Config struct {
 	rest.RestConf
 	UCenterSrv zrpc.RpcClientConf
+	JWT        AuthConfig
+}
+
+type AuthConfig struct {
+	AccessSecret string
+	AccessExpire int64
 }

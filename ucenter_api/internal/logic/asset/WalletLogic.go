@@ -24,7 +24,6 @@ func NewWalletLogic(ctx context.Context, svcCtx *svc.ServiceContext) *WalletLogi
 }
 
 func (l *WalletLogic) Wallet(req *types.WalletRequest) (resp *types.WalletResponse, err error) {
-	// todo: add your logic here and delete this line
-
+	logx.Info("get my wallet success ........")
 	return
 }

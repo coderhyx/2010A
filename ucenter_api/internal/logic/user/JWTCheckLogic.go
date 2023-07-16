@@ -1,7 +1,9 @@
 package user
 
 import (
+	"2010A/common/feature"
 	"context"
+	"fmt"
 
 	"ucenter_api/internal/svc"
 	"ucenter_api/internal/types"
@@ -24,7 +26,13 @@ func NewJWTCheckLogic(ctx context.Context, svcCtx *svc.ServiceContext) *JWTCheck
 }
 
 func (l *JWTCheckLogic) JWTCheck(req *types.JWTRequest) (resp *types.BoolResponse, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+	r, err := feature.ParseToken(req.Token, l.svcCtx.Config.JWT.AccessSecret)
+	fmt.Println("--------->", r)
+	if err != nil {
+		logx.Error(err)
+		return nil, nil
+	}
+	return &types.BoolResponse{
+		Res: true,
+	}, nil
 }

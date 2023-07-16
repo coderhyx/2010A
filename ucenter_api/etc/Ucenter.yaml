@@ -7,3 +7,14 @@ UCenterSrv:
     Hosts:
       - 0.0.0.0:2379
     Key: ucenter.rpc
+
+JWT:
+  AccessSecret: "!@#wtcoin"
+  AccessExpire: 604800
+
+Log:
+  ServiceName: ucenter.api
+  Mode: console
+  Level: info
+  #  Path: logs
+  Encoding: plain

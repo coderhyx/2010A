@@ -1,7 +1,9 @@
 package user
 
 import (
+	"2010A/common/feature"
 	"context"
+	"time"
 
 	"ucenter_api/internal/svc"
 	"ucenter_api/internal/types"
@@ -24,7 +26,10 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 }
 
 func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, err error) {
-	// todo: add your logic here and delete this line
-
+	key := l.svcCtx.Config.JWT.AccessSecret
+	expire := l.svcCtx.Config.JWT.AccessExpire
+	token, err := feature.GetJwtToken(key, time.Now().Unix(), expire, 2)
+	resp = &types.LoginResponse{}
+	resp.Token = token
 	return
 }
