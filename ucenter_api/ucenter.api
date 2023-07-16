@@ -47,6 +47,12 @@ type LoginRequest {
 	Ip       string      `json:"ip,optional"`
 }
 
+type GetMembersRequest {
+	Page     int64 `json:"page"`
+	PageSize int64 `json:"pageSize"`
+	UserName string `json:"userName,optional"`
+}
+
 type WalletRequest {
 	CoinName string `json:"coinName,optional" path:"coinName,optional"`
 	Ip       string `json:"ip,optional"`
@@ -72,6 +78,11 @@ type LoginResponse {
 	LoginCount    int    `json:"loginCount"`
 	SuperPartner  string `json:"superPartner"`
 	MemberRate    int    `json:"memberRate"`
+}
+
+type GetMembersResponse {
+	Total   int             `json:"total"`
+	Members []LoginResponse `json:"members"`
 }
 
 type WalletResponse {
@@ -122,6 +133,7 @@ type Coin {
 	prefix: /uc
 	group: user
 )
+
 service ucenter {
 	//注册
 	@handler RegisterHandler
@@ -132,6 +144,9 @@ service ucenter {
 	//登录
 	@handler LoginHandler
 	post /login(LoginRequest) returns (LoginResponse)
+	//成员列表
+	@handler MembersHandler
+	post /members(GetMembersRequest) returns (GetMembersResponse)
 	//发送验证码
 	@handler FindOneHandler
 	post /findone(FindOneRequest) returns (FindOneResponse)

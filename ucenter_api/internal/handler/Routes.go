@@ -31,6 +31,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
+				Path:    "/members",
+				Handler: user.MembersHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
 				Path:    "/findone",
 				Handler: user.FindOneHandler(serverCtx),
 			},

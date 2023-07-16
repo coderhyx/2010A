@@ -49,6 +49,12 @@ type LoginRequest struct {
 	Ip       string      `json:"ip,optional"`
 }
 
+type GetMembersRequest struct {
+	Page     int64  `json:"page"`
+	PageSize int64  `json:"pageSize"`
+	UserName string `json:"userName,optional"`
+}
+
 type WalletRequest struct {
 	CoinName string `json:"coinName,optional" path:"coinName,optional"`
 	Ip       string `json:"ip,optional"`
@@ -74,6 +80,11 @@ type LoginResponse struct {
 	LoginCount    int    `json:"loginCount"`
 	SuperPartner  string `json:"superPartner"`
 	MemberRate    int    `json:"memberRate"`
+}
+
+type GetMembersResponse struct {
+	Total   int             `json:"total"`
+	Members []LoginResponse `json:"members"`
 }
 
 type WalletResponse struct {
