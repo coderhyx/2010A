@@ -1,0 +1,143 @@
+syntax = "proto3";
+
+option go_package ="./goods";
+
+package goods;
+
+// ------------------------------------ 
+// Messages
+// ------------------------------------ 
+
+//--------------------------------goods--------------------------------
+message Goods {
+  int64 id = 1; //id
+  int64 addTime = 2; //addTime
+  int64 updateTime = 3; //updateTime
+  int64 deletedAt = 4; //deletedAt
+  int64 isDeleted = 5; //isDeleted
+  int64 categoryId = 6; //categoryId
+  int64 brandsId = 7; //brandsId
+  int64 onSale = 8; //'是否上架'
+  int64 shipFree = 9; //'是否免运费'
+  int64 isNew = 10; //'是否新品'
+  int64 isHot = 11; //'是否热卖商品'
+  string name = 12; //name
+  string goodsSn = 13; //'商家的内部编号'
+  int64 clickNum = 14; //'点击数'
+  int64 soldNum = 15; //'销售量'
+  int64 favNum = 16; //'收藏数'
+  double marketPrice = 17; //'商品价格'
+  double shopPrice = 18; //'实际价格'
+  string goodsBrief = 19; //'商品简介'
+  string goodsFrontImage = 20; //'商品展示图'
+}
+
+message AddGoodsReq {
+  int64 addTime = 1; //addTime
+  int64 deletedAt = 2; //deletedAt
+  int64 isDeleted = 3; //isDeleted
+  int64 categoryId = 4; //categoryId
+  int64 brandsId = 5; //brandsId
+  int64 onSale = 6; //'是否上架'
+  int64 shipFree = 7; //'是否免运费'
+  int64 isNew = 8; //'是否新品'
+  int64 isHot = 9; //'是否热卖商品'
+  string name = 10; //name
+  string goodsSn = 11; //'商家的内部编号'
+  int64 clickNum = 12; //'点击数'
+  int64 soldNum = 13; //'销售量'
+  int64 favNum = 14; //'收藏数'
+  double marketPrice = 15; //'商品价格'
+  double shopPrice = 16; //'实际价格'
+  string goodsBrief = 17; //'商品简介'
+  string goodsFrontImage = 18; //'商品展示图'
+}
+
+message AddGoodsResp {
+}
+
+message UpdateGoodsReq {
+  int64 id = 1; //id
+  int64 addTime = 2; //addTime
+  int64 deletedAt = 3; //deletedAt
+  int64 isDeleted = 4; //isDeleted
+  int64 categoryId = 5; //categoryId
+  int64 brandsId = 6; //brandsId
+  int64 onSale = 7; //'是否上架'
+  int64 shipFree = 8; //'是否免运费'
+  int64 isNew = 9; //'是否新品'
+  int64 isHot = 10; //'是否热卖商品'
+  string name = 11; //name
+  string goodsSn = 12; //'商家的内部编号'
+  int64 clickNum = 13; //'点击数'
+  int64 soldNum = 14; //'销售量'
+  int64 favNum = 15; //'收藏数'
+  double marketPrice = 16; //'商品价格'
+  double shopPrice = 17; //'实际价格'
+  string goodsBrief = 18; //'商品简介'
+  string goodsFrontImage = 19; //'商品展示图'
+}
+
+message UpdateGoodsResp {
+}
+
+message DelGoodsReq {
+  int64 id = 1; //id
+}
+
+message DelGoodsResp {
+}
+
+message GetGoodsByIdReq {
+  int64 id = 1; //id
+}
+
+message GetGoodsByIdResp {
+  Goods goods = 1; //goods
+}
+
+message SearchGoodsReq {
+  int64 page = 1; //page
+  int64 limit = 2; //limit
+  int64 id = 3; //id
+  int64 addTime = 4; //addTime
+  int64 updateTime = 5; //updateTime
+  int64 deletedAt = 6; //deletedAt
+  int64 isDeleted = 7; //isDeleted
+  int64 categoryId = 8; //categoryId
+  int64 brandsId = 9; //brandsId
+  int64 onSale = 10; //'是否上架'
+  int64 shipFree = 11; //'是否免运费'
+  int64 isNew = 12; //'是否新品'
+  int64 isHot = 13; //'是否热卖商品'
+  string name = 14; //name
+  string goodsSn = 15; //'商家的内部编号'
+  int64 clickNum = 16; //'点击数'
+  int64 soldNum = 17; //'销售量'
+  int64 favNum = 18; //'收藏数'
+  double marketPrice = 19; //'商品价格'
+  double shopPrice = 20; //'实际价格'
+  string goodsBrief = 21; //'商品简介'
+  string goodsFrontImage = 22; //'商品展示图'
+}
+
+message SearchGoodsResp {
+  repeated Goods goods = 1; //goods
+}
+
+
+
+// ------------------------------------ 
+// Rpc Func
+// ------------------------------------ 
+
+service goods{ 
+
+	 //-----------------------goods----------------------- 
+	 rpc AddGoods(AddGoodsReq) returns (AddGoodsResp); 
+	 rpc UpdateGoods(UpdateGoodsReq) returns (UpdateGoodsResp); 
+	 rpc DelGoods(DelGoodsReq) returns (DelGoodsResp); 
+	 rpc GetGoodsById(GetGoodsByIdReq) returns (GetGoodsByIdResp); 
+	 rpc SearchGoods(SearchGoodsReq) returns (SearchGoodsResp); 
+
+}
