@@ -17,6 +17,8 @@ type (
 	CaptchaReq   = ucenter.CaptchaReq
 	CodeReq      = ucenter.CodeReq
 	Coin         = ucenter.Coin
+	ErrorDemoReq = ucenter.ErrorDemoReq
+	ErrorDemoRes = ucenter.ErrorDemoRes
 	LoginReq     = ucenter.LoginReq
 	LoginRes     = ucenter.LoginRes
 	MemberInfo   = ucenter.MemberInfo
@@ -39,6 +41,8 @@ type (
 		// 登录
 		Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginRes, error)
 		FindWalletBySymbol(ctx context.Context, in *AssetReq, opts ...grpc.CallOption) (*MemberWallet, error)
+		// error demo
+		ErrorDemo(ctx context.Context, in *ErrorDemoReq, opts ...grpc.CallOption) (*ErrorDemoRes, error)
 	}
 
 	defaultUcenter struct {
@@ -84,4 +88,10 @@ func (m *defaultUcenter) Login(ctx context.Context, in *LoginReq, opts ...grpc.C
 func (m *defaultUcenter) FindWalletBySymbol(ctx context.Context, in *AssetReq, opts ...grpc.CallOption) (*MemberWallet, error) {
 	client := ucenter.NewUcenterClient(m.cli.Conn())
 	return client.FindWalletBySymbol(ctx, in, opts...)
+}
+
+// error demo
+func (m *defaultUcenter) ErrorDemo(ctx context.Context, in *ErrorDemoReq, opts ...grpc.CallOption) (*ErrorDemoRes, error) {
+	client := ucenter.NewUcenterClient(m.cli.Conn())
+	return client.ErrorDemo(ctx, in, opts...)
 }

@@ -185,6 +185,10 @@ message MemberWallet{
   double toReleased  = 10;
 }
 
+message ErrorDemoReq {}
+message ErrorDemoRes {}
+
+
 service Ucenter {
   //注册
   rpc registerByPhone(RegReq) returns(RegRes);
@@ -197,4 +201,6 @@ service Ucenter {
   rpc login(LoginReq) returns(LoginRes);
   // 
   rpc findWalletBySymbol(AssetReq) returns(MemberWallet);
+  //error demo
+  rpc errorDemo(ErrorDemoReq) returns(ErrorDemoRes);
 }

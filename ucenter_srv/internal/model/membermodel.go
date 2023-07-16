@@ -16,6 +16,8 @@ type (
 	}
 )
 
+const SendCodeCacheKey = "MEMBER::"
+
 // NewMemberModel returns a model for the database table.
 func NewMemberModel(conn sqlx.SqlConn) MemberModel {
 	return &customMemberModel{

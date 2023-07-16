@@ -1,0 +1,4 @@
+2023-07-16T15:43:55.309+08:00	[34;1m info [0m	send code success	caller=logic/sendCodeLogic.go:52	trace=e3b93364611e784852269e5670602b52	span=b2e6328112af540d
+2023-07-16T15:43:55.309+08:00	[34;1m info [0m	127.0.0.1:51187 - /ucenter.Ucenter/sendCode - {"phone":"18321217705"}	duration=0.1ms	caller=serverinterceptors/statinterceptor.go:90	trace=e3b93364611e784852269e5670602b52	span=b2e6328112af540d
+2023-07-16T17:03:59.911+08:00	[34;1m info [0m	127.0.0.1:52528 - /ucenter.Ucenter/errorDemo - {}	duration=0.1ms	caller=serverinterceptors/statinterceptor.go:90	trace=41f64a42876c54044518b7c61f144c94	span=1838711daa9a82c3
+2023-07-16T17:04:17.767+08:00	[34;1m info [0m	127.0.0.1:52528 - /ucenter.Ucenter/errorDemo - {}	duration=0.1ms	caller=serverinterceptors/statinterceptor.go:90	trace=81b83434296cdb08f05ab7c009e6ef18	span=16b96a80625d5015

@@ -25,6 +25,7 @@ const (
 	Ucenter_FindMembers_FullMethodName        = "/ucenter.Ucenter/FindMembers"
 	Ucenter_Login_FullMethodName              = "/ucenter.Ucenter/login"
 	Ucenter_FindWalletBySymbol_FullMethodName = "/ucenter.Ucenter/findWalletBySymbol"
+	Ucenter_ErrorDemo_FullMethodName          = "/ucenter.Ucenter/errorDemo"
 )
 
 // UcenterClient is the client API for Ucenter service.
@@ -41,6 +42,8 @@ type UcenterClient interface {
 	// 登录
 	Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginRes, error)
 	FindWalletBySymbol(ctx context.Context, in *AssetReq, opts ...grpc.CallOption) (*MemberWallet, error)
+	// error demo
+	ErrorDemo(ctx context.Context, in *ErrorDemoReq, opts ...grpc.CallOption) (*ErrorDemoRes, error)
 }
 
 type ucenterClient struct {
@@ -105,6 +108,15 @@ func (c *ucenterClient) FindWalletBySymbol(ctx context.Context, in *AssetReq, op
 	return out, nil
 }
 
+func (c *ucenterClient) ErrorDemo(ctx context.Context, in *ErrorDemoReq, opts ...grpc.CallOption) (*ErrorDemoRes, error) {
+	out := new(ErrorDemoRes)
+	err := c.cc.Invoke(ctx, Ucenter_ErrorDemo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UcenterServer is the server API for Ucenter service.
 // All implementations must embed UnimplementedUcenterServer
 // for forward compatibility
@@ -119,6 +131,8 @@ type UcenterServer interface {
 	// 登录
 	Login(context.Context, *LoginReq) (*LoginRes, error)
 	FindWalletBySymbol(context.Context, *AssetReq) (*MemberWallet, error)
+	// error demo
+	ErrorDemo(context.Context, *ErrorDemoReq) (*ErrorDemoRes, error)
 	mustEmbedUnimplementedUcenterServer()
 }
 
@@ -143,6 +157,9 @@ func (UnimplementedUcenterServer) Login(context.Context, *LoginReq) (*LoginRes, 
 }
 func (UnimplementedUcenterServer) FindWalletBySymbol(context.Context, *AssetReq) (*MemberWallet, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindWalletBySymbol not implemented")
+}
+func (UnimplementedUcenterServer) ErrorDemo(context.Context, *ErrorDemoReq) (*ErrorDemoRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ErrorDemo not implemented")
 }
 func (UnimplementedUcenterServer) mustEmbedUnimplementedUcenterServer() {}
 
@@ -265,6 +282,24 @@ func _Ucenter_FindWalletBySymbol_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Ucenter_ErrorDemo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ErrorDemoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UcenterServer).ErrorDemo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Ucenter_ErrorDemo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UcenterServer).ErrorDemo(ctx, req.(*ErrorDemoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Ucenter_ServiceDesc is the grpc.ServiceDesc for Ucenter service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -295,6 +330,10 @@ var Ucenter_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "findWalletBySymbol",
 			Handler:    _Ucenter_FindWalletBySymbol_Handler,
+		},
+		{
+			MethodName: "errorDemo",
+			Handler:    _Ucenter_ErrorDemo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

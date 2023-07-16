@@ -11,4 +11,12 @@ type Config struct {
 		DataSource string
 	}
 	CacheRedis cache.CacheConf
+	SMS        UniCodeConfig
+}
+
+type UniCodeConfig struct {
+	AccessKeyId  string
+	AccessSecret string
+	Signature    string
+	TemplateId   string
 }

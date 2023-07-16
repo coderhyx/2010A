@@ -55,3 +55,9 @@ func (s *UcenterServer) FindWalletBySymbol(ctx context.Context, in *ucenter.Asse
 	l := logic.NewFindWalletBySymbolLogic(ctx, s.svcCtx)
 	return l.FindWalletBySymbol(in)
 }
+
+// error demo
+func (s *UcenterServer) ErrorDemo(ctx context.Context, in *ucenter.ErrorDemoReq) (*ucenter.ErrorDemoRes, error) {
+	l := logic.NewErrorDemoLogic(ctx, s.svcCtx)
+	return l.ErrorDemo(in)
+}

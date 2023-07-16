@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"ucenter_srv/internal/config"
 	"ucenter_srv/internal/server"
 	"ucenter_srv/internal/svc"
@@ -33,6 +35,12 @@ func main() {
 		}
 	})
 	defer s.Stop()
+
+	logx.MustSetup(logx.LogConf{
+		Mode:  c.Log.Mode,
+		Level: c.Log.Level,
+		//LogFile: c.Log.LogFile,
+	})
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
 	s.Start()

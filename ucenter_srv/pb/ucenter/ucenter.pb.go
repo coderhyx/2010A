@@ -1676,6 +1676,82 @@ func (x *MemberWallet) GetToReleased() float64 {
 	return 0
 }
 
+type ErrorDemoReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ErrorDemoReq) Reset() {
+	*x = ErrorDemoReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ucenter_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ErrorDemoReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ErrorDemoReq) ProtoMessage() {}
+
+func (x *ErrorDemoReq) ProtoReflect() protoreflect.Message {
+	mi := &file_ucenter_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ErrorDemoReq.ProtoReflect.Descriptor instead.
+func (*ErrorDemoReq) Descriptor() ([]byte, []int) {
+	return file_ucenter_proto_rawDescGZIP(), []int{14}
+}
+
+type ErrorDemoRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ErrorDemoRes) Reset() {
+	*x = ErrorDemoRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_ucenter_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ErrorDemoRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ErrorDemoRes) ProtoMessage() {}
+
+func (x *ErrorDemoRes) ProtoReflect() protoreflect.Message {
+	mi := &file_ucenter_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ErrorDemoRes.ProtoReflect.Descriptor instead.
+func (*ErrorDemoRes) Descriptor() ([]byte, []int) {
+	return file_ucenter_proto_rawDescGZIP(), []int{15}
+}
+
 var File_ucenter_proto protoreflect.FileDescriptor
 
 var file_ucenter_proto_rawDesc = []byte{
@@ -1960,8 +2036,10 @@ var file_ucenter_proto_rawDesc = []byte{
 	0x63, 0x6f, 0x69, 0x6e, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x75, 0x63, 0x65,
 	0x6e, 0x74, 0x65, 0x72, 0x2e, 0x43, 0x6f, 0x69, 0x6e, 0x52, 0x04, 0x63, 0x6f, 0x69, 0x6e, 0x12,
 	0x1e, 0x0a, 0x0a, 0x74, 0x6f, 0x52, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x18, 0x0a, 0x20,
-	0x01, 0x28, 0x01, 0x52, 0x0a, 0x74, 0x6f, 0x52, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x32,
-	0xcf, 0x02, 0x0a, 0x07, 0x55, 0x63, 0x65, 0x6e, 0x74, 0x65, 0x72, 0x12, 0x33, 0x0a, 0x0f, 0x72,
+	0x01, 0x28, 0x01, 0x52, 0x0a, 0x74, 0x6f, 0x52, 0x65, 0x6c, 0x65, 0x61, 0x73, 0x65, 0x64, 0x22,
+	0x0e, 0x0a, 0x0c, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x44, 0x65, 0x6d, 0x6f, 0x52, 0x65, 0x71, 0x22,
+	0x0e, 0x0a, 0x0c, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x44, 0x65, 0x6d, 0x6f, 0x52, 0x65, 0x73, 0x32,
+	0x8a, 0x03, 0x0a, 0x07, 0x55, 0x63, 0x65, 0x6e, 0x74, 0x65, 0x72, 0x12, 0x33, 0x0a, 0x0f, 0x72,
 	0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x42, 0x79, 0x50, 0x68, 0x6f, 0x6e, 0x65, 0x12, 0x0f,
 	0x2e, 0x75, 0x63, 0x65, 0x6e, 0x74, 0x65, 0x72, 0x2e, 0x52, 0x65, 0x67, 0x52, 0x65, 0x71, 0x1a,
 	0x0f, 0x2e, 0x75, 0x63, 0x65, 0x6e, 0x74, 0x65, 0x72, 0x2e, 0x52, 0x65, 0x67, 0x52, 0x65, 0x73,
@@ -1982,8 +2060,12 @@ var file_ucenter_proto_rawDesc = []byte{
 	0x79, 0x53, 0x79, 0x6d, 0x62, 0x6f, 0x6c, 0x12, 0x11, 0x2e, 0x75, 0x63, 0x65, 0x6e, 0x74, 0x65,
 	0x72, 0x2e, 0x41, 0x73, 0x73, 0x65, 0x74, 0x52, 0x65, 0x71, 0x1a, 0x15, 0x2e, 0x75, 0x63, 0x65,
 	0x6e, 0x74, 0x65, 0x72, 0x2e, 0x4d, 0x65, 0x6d, 0x62, 0x65, 0x72, 0x57, 0x61, 0x6c, 0x6c, 0x65,
-	0x74, 0x42, 0x0b, 0x5a, 0x09, 0x2e, 0x2f, 0x75, 0x63, 0x65, 0x6e, 0x74, 0x65, 0x72, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x12, 0x39, 0x0a, 0x09, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x44, 0x65, 0x6d, 0x6f, 0x12, 0x15,
+	0x2e, 0x75, 0x63, 0x65, 0x6e, 0x74, 0x65, 0x72, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x44, 0x65,
+	0x6d, 0x6f, 0x52, 0x65, 0x71, 0x1a, 0x15, 0x2e, 0x75, 0x63, 0x65, 0x6e, 0x74, 0x65, 0x72, 0x2e,
+	0x45, 0x72, 0x72, 0x6f, 0x72, 0x44, 0x65, 0x6d, 0x6f, 0x52, 0x65, 0x73, 0x42, 0x0b, 0x5a, 0x09,
+	0x2e, 0x2f, 0x75, 0x63, 0x65, 0x6e, 0x74, 0x65, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x33,
 }
 
 var (
@@ -1998,7 +2080,7 @@ func file_ucenter_proto_rawDescGZIP() []byte {
 	return file_ucenter_proto_rawDescData
 }
 
-var file_ucenter_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_ucenter_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_ucenter_proto_goTypes = []interface{}{
 	(*RegReq)(nil),       // 0: ucenter.RegReq
 	(*CaptchaReq)(nil),   // 1: ucenter.CaptchaReq
@@ -2014,6 +2096,8 @@ var file_ucenter_proto_goTypes = []interface{}{
 	(*AssetReq)(nil),     // 11: ucenter.AssetReq
 	(*Coin)(nil),         // 12: ucenter.Coin
 	(*MemberWallet)(nil), // 13: ucenter.MemberWallet
+	(*ErrorDemoReq)(nil), // 14: ucenter.ErrorDemoReq
+	(*ErrorDemoRes)(nil), // 15: ucenter.ErrorDemoRes
 }
 var file_ucenter_proto_depIdxs = []int32{
 	1,  // 0: ucenter.RegReq.captcha:type_name -> ucenter.CaptchaReq
@@ -2026,14 +2110,16 @@ var file_ucenter_proto_depIdxs = []int32{
 	6,  // 7: ucenter.Ucenter.FindMembers:input_type -> ucenter.MembersReq
 	9,  // 8: ucenter.Ucenter.login:input_type -> ucenter.LoginReq
 	11, // 9: ucenter.Ucenter.findWalletBySymbol:input_type -> ucenter.AssetReq
-	2,  // 10: ucenter.Ucenter.registerByPhone:output_type -> ucenter.RegRes
-	3,  // 11: ucenter.Ucenter.sendCode:output_type -> ucenter.NoRes
-	7,  // 12: ucenter.Ucenter.FindMemberById:output_type -> ucenter.MemberInfo
-	8,  // 13: ucenter.Ucenter.FindMembers:output_type -> ucenter.MembersRes
-	10, // 14: ucenter.Ucenter.login:output_type -> ucenter.LoginRes
-	13, // 15: ucenter.Ucenter.findWalletBySymbol:output_type -> ucenter.MemberWallet
-	10, // [10:16] is the sub-list for method output_type
-	4,  // [4:10] is the sub-list for method input_type
+	14, // 10: ucenter.Ucenter.errorDemo:input_type -> ucenter.ErrorDemoReq
+	2,  // 11: ucenter.Ucenter.registerByPhone:output_type -> ucenter.RegRes
+	3,  // 12: ucenter.Ucenter.sendCode:output_type -> ucenter.NoRes
+	7,  // 13: ucenter.Ucenter.FindMemberById:output_type -> ucenter.MemberInfo
+	8,  // 14: ucenter.Ucenter.FindMembers:output_type -> ucenter.MembersRes
+	10, // 15: ucenter.Ucenter.login:output_type -> ucenter.LoginRes
+	13, // 16: ucenter.Ucenter.findWalletBySymbol:output_type -> ucenter.MemberWallet
+	15, // 17: ucenter.Ucenter.errorDemo:output_type -> ucenter.ErrorDemoRes
+	11, // [11:18] is the sub-list for method output_type
+	4,  // [4:11] is the sub-list for method input_type
 	4,  // [4:4] is the sub-list for extension type_name
 	4,  // [4:4] is the sub-list for extension extendee
 	0,  // [0:4] is the sub-list for field type_name
@@ -2213,6 +2299,30 @@ func file_ucenter_proto_init() {
 				return nil
 			}
 		}
+		file_ucenter_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ErrorDemoReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_ucenter_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ErrorDemoRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -2220,7 +2330,7 @@ func file_ucenter_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_ucenter_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
