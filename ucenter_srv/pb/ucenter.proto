@@ -32,11 +32,15 @@ message CodeReq {
   string country = 2;
 }
 
-
 message MemberReq {
   int64 memberId = 3;
 }
 
+message MembersReq {
+  int64 page = 1;
+  int64 limit = 2;
+  string userName = 3;
+}
 
 message MemberInfo {
   int64 id  = 1;
@@ -103,6 +107,11 @@ message MemberInfo {
   int32 teamLevel  = 62;
   double teamPower  = 63;
   int64 memberLevelId  = 64;
+}
+
+message MembersRes {
+  int64 total = 1;
+  repeated MemberInfo members = 2;
 }
 
 message LoginReq {
@@ -182,6 +191,8 @@ service Ucenter {
   rpc sendCode(CodeReq) returns(NoRes);
   //会员查找
   rpc FindMemberById(MemberReq) returns(MemberInfo);
+  //会员列表
+  rpc FindMembers(MembersReq) returns(MembersRes);
   //登录
   rpc login(LoginReq) returns(LoginRes);
   // 

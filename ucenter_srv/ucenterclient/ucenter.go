@@ -22,6 +22,8 @@ type (
 	MemberInfo   = ucenter.MemberInfo
 	MemberReq    = ucenter.MemberReq
 	MemberWallet = ucenter.MemberWallet
+	MembersReq   = ucenter.MembersReq
+	MembersRes   = ucenter.MembersRes
 	NoRes        = ucenter.NoRes
 	RegReq       = ucenter.RegReq
 	RegRes       = ucenter.RegRes
@@ -32,6 +34,8 @@ type (
 		SendCode(ctx context.Context, in *CodeReq, opts ...grpc.CallOption) (*NoRes, error)
 		// 会员查找
 		FindMemberById(ctx context.Context, in *MemberReq, opts ...grpc.CallOption) (*MemberInfo, error)
+		// 会员列表
+		FindMembers(ctx context.Context, in *MembersReq, opts ...grpc.CallOption) (*MembersRes, error)
 		// 登录
 		Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginRes, error)
 		FindWalletBySymbol(ctx context.Context, in *AssetReq, opts ...grpc.CallOption) (*MemberWallet, error)
@@ -63,6 +67,12 @@ func (m *defaultUcenter) SendCode(ctx context.Context, in *CodeReq, opts ...grpc
 func (m *defaultUcenter) FindMemberById(ctx context.Context, in *MemberReq, opts ...grpc.CallOption) (*MemberInfo, error) {
 	client := ucenter.NewUcenterClient(m.cli.Conn())
 	return client.FindMemberById(ctx, in, opts...)
+}
+
+// 会员列表
+func (m *defaultUcenter) FindMembers(ctx context.Context, in *MembersReq, opts ...grpc.CallOption) (*MembersRes, error) {
+	client := ucenter.NewUcenterClient(m.cli.Conn())
+	return client.FindMembers(ctx, in, opts...)
 }
 
 // 登录

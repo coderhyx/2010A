@@ -39,6 +39,12 @@ func (s *UcenterServer) FindMemberById(ctx context.Context, in *ucenter.MemberRe
 	return l.FindMemberById(in)
 }
 
+// 会员列表
+func (s *UcenterServer) FindMembers(ctx context.Context, in *ucenter.MembersReq) (*ucenter.MembersRes, error) {
+	l := logic.NewFindMembersLogic(ctx, s.svcCtx)
+	return l.FindMembers(in)
+}
+
 // 登录
 func (s *UcenterServer) Login(ctx context.Context, in *ucenter.LoginReq) (*ucenter.LoginRes, error) {
 	l := logic.NewLoginLogic(ctx, s.svcCtx)

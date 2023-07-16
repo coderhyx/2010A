@@ -25,6 +25,8 @@ type (
 	memberModel interface {
 		Insert(ctx context.Context, data *Member) (sql.Result, error)
 		FindOne(ctx context.Context, id int64) (*Member, error)
+		GetTotal(ctx context.Context, where string) (int64, error)
+		FindMembers(ctx context.Context, where string, Page, PageSize int64) ([]*Member, error)
 		FindOneByMobilePhone(ctx context.Context, mobilePhone string) (*Member, error)
 		FindOneByUsername(ctx context.Context, username string) (*Member, error)
 		Update(ctx context.Context, data *Member) error
@@ -124,6 +126,44 @@ func (m *defaultMemberModel) FindOne(ctx context.Context, id int64) (*Member, er
 	switch err {
 	case nil:
 		return &resp, nil
+	case sqlc.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
+}
+
+func (m *defaultMemberModel) GetTotal(ctx context.Context, where string) (int64, error) {
+	var total int64
+	var err error
+	if len(where) == 0 {
+		query := fmt.Sprintf("select count(1) from %s ", m.table)
+		err = m.conn.QueryRow(&total, query)
+
+	} else {
+		query := fmt.Sprintf("select count(1) from %s where %s", m.table, where)
+		err = m.conn.QueryRow(&total, query)
+	}
+	if err != nil {
+		return total, err
+	}
+	return total, nil
+}
+
+func (m *defaultMemberModel) FindMembers(ctx context.Context, where string, Page, PageSize int64) ([]*Member, error) {
+	var resp []*Member
+	var err error
+	offset := (Page - 1) * PageSize
+	if len(where) == 0 {
+		query := fmt.Sprintf("select %s from %s order by id desc limit ?,?", memberRows, m.table)
+		err = m.conn.QueryRowsCtx(ctx, &resp, query, offset, PageSize)
+	} else {
+		query := fmt.Sprintf("select %s from %s where %s order by id desc limit ?,?", memberRows, m.table, where)
+		err = m.conn.QueryRowsCtx(ctx, &resp, query, offset, PageSize)
+	}
+	switch err {
+	case nil:
+		return resp, nil
 	case sqlc.ErrNotFound:
 		return nil, ErrNotFound
 	default:
