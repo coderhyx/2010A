@@ -11,17 +11,22 @@ type GoodsDao struct {
 	db *gorm.DB
 }
 
-func NewGoodsDao() *GoodsDao {
+func NewGoodsDao(db *gorm.DB) *GoodsDao {
 	return &GoodsDao{
-		db: GetDB(),
+		db: db,
 	}
 }
 
 func (m *GoodsDao) FindById(ctx context.Context, id int64) (good *model.Goods, err error) {
 	var goods model.Goods
-	result := m.db.First(&goods, id)
-	if result.Error != nil {
-		return nil, result.Error
-	}
+	//方式一:
+	d1 := GetDB()
+	d1.Exec("select 1")
+	//方式二:
+	m.db.Exec("select 1")
+	//result := m.db.First(&goods, id)
+	//if result.Error != nil {
+	//	return nil, result.Error
+	//}
 	return &goods, nil
 }

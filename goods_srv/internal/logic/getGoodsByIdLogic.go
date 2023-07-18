@@ -27,7 +27,6 @@ func NewGetGoodsByIdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetG
 }
 
 func (l *GetGoodsByIdLogic) GetGoodsById(in *goods.GetGoodsByIdReq) (*goods.GetGoodsByIdResp, error) {
-	// todo: add your logic here and delete this line
 	gm, _ := l.goodsDao.FindById(l.ctx, in.Id)
 	fmt.Println("-------------->", gm)
 	return &goods.GetGoodsByIdResp{}, nil

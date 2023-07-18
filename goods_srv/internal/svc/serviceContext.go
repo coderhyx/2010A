@@ -14,9 +14,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 
 	//db := db.GormConn(c.Mysql.DataSource)
 	dao.InitMySQL(c.Mysql.DataSource)
-
+	db := dao.GetDB()
 	return &ServiceContext{
 		Config:   c,
-		GoodsDao: dao.NewGoodsDao(),
+		GoodsDao: dao.NewGoodsDao(db),
 	}
 }
