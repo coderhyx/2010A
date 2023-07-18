@@ -1,6 +1,16 @@
 Name: goods.rpc
-ListenOn: 0.0.0.0:8080
+ListenOn: 0.0.0.0:38081
 Etcd:
   Hosts:
-  - 127.0.0.1:2379
+  - 0.0.0.0:2379
   Key: goods.rpc
+
+Mysql:
+  DataSource: root:123456@tcp(127.0.0.1:3306)/wsyx?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+
+Log:
+  ServiceName: goods.rpc
+  Mode: console
+  Level: info
+  #  Path: logs
+  Encoding: plain

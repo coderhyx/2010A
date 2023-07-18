@@ -100,9 +100,11 @@ week3
 
 d8:  7.31 12
 ```
-  Gorm整合
-  Gorm使用
-  Job里使用Gorm
+  公共模块封装gorm
+  rpc端gorm配置&svc注册
+  gorm model层 & sql2gorm
+  gorm dao层
+  Job里使用Gorm & migration
 ```
 
 d9: 8.1 13

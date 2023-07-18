@@ -1,0 +1,23 @@
+CREATE TABLE `goods` (
+                         `id` int(11) NOT NULL AUTO_INCREMENT,
+                         `add_time` datetime(3) DEFAULT NULL,
+                         `update_time` datetime(3) DEFAULT NULL,
+                         `deleted_at` datetime(3) DEFAULT NULL,
+                         `is_deleted` tinyint(1) DEFAULT NULL,
+                         `category_id` int(11) NOT NULL,
+                         `brands_id` int(11) NOT NULL,
+                         `on_sale` tinyint(1) NOT NULL DEFAULT '0' COMMENT '''是否上架''',
+                         `ship_free` tinyint(1) NOT NULL DEFAULT '0' COMMENT '''是否免运费''',
+                         `is_new` tinyint(1) NOT NULL DEFAULT '0' COMMENT '''是否新品''',
+                         `is_hot` tinyint(1) NOT NULL DEFAULT '0' COMMENT '''是否热卖商品''',
+                         `name` varchar(50) NOT NULL,
+                         `goods_sn` varchar(50) NOT NULL COMMENT '''商家的内部编号''',
+                         `click_num` int(11) NOT NULL DEFAULT '0' COMMENT '''点击数''',
+                         `sold_num` int(11) NOT NULL DEFAULT '0' COMMENT '''销售量''',
+                         `fav_num` int(11) NOT NULL DEFAULT '0' COMMENT '''收藏数''',
+                         `market_price` float NOT NULL COMMENT '''商品价格''',
+                         `shop_price` float NOT NULL COMMENT '''实际价格''',
+                         `goods_brief` varchar(100) NOT NULL COMMENT '''商品简介''',
+                         `goods_front_image` varchar(200) NOT NULL COMMENT '''商品展示图''',
+                         PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
