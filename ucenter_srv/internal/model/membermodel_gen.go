@@ -139,7 +139,6 @@ func (m *defaultMemberModel) GetTotal(ctx context.Context, where string) (int64,
 	if len(where) == 0 {
 		query := fmt.Sprintf("select count(1) from %s ", m.table)
 		err = m.conn.QueryRow(&total, query)
-
 	} else {
 		query := fmt.Sprintf("select count(1) from %s where %s", m.table, where)
 		err = m.conn.QueryRow(&total, query)

@@ -1,0 +1,33 @@
+go get github.com/tal-tech/go-zero/core/stores/nacos
+
+import (
+    "github.com/tal-tech/go-zero/core/conf"
+    "github.com/tal-tech/go-zero/core/stores/etcd"
+    "github.com/tal-tech/go-zero/core/stores/nacos"
+)
+
+type Config struct {
+    Etcd   etcd.Config
+    Nacos  nacos.Config
+    Server ServerConfig
+}
+
+type ServerConfig struct {
+    Host string
+    Port int
+}
+
+func main() {
+    var c Config
+    conf.MustLoad("config.yaml", &c)
+
+    // 创建 Nacos 配置中心
+    nacosConfigCenter := nacos.NewNacosConfigCenter(c.Nacos)
+
+    // 从 Nacos 中获取配置
+    var serverConfig ServerConfig
+    nacosConfigCenter.GetConfig("server", &serverConfig)
+
+    // 使用获取到的配置
+    // ...
+}
