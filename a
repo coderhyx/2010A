@@ -1,0 +1,15 @@
+{
+	"code": 0,
+	"message": "success",
+	"data": {
+		"username": "小米",
+		"password": "cd02b1e2eee0664d97e47fe897fd5d955ba1651496434c86368ed4017ac4f4bea8565256715767dfc1fedb273b0d7213a4096f685b09adc34b5f65d93a6132c29ce8cdf8687cf5f46472bedc05eacac995e4072f705fc6370bc8041d76c245e6d647b5cf2d9601b47aad308055bfdbd5495d7ea4af8443b5ebf500fd1d4a9ecd",
+		"captcha": null,
+		"phone": "",
+		"promotion": "",
+		"code": "",
+		"country": "1",
+		"superPartner": "11",
+		"ip": ""
+	}
+}
