@@ -96,9 +96,37 @@ d9:
 
 
 
------------------------
-week4
+d10 
+```
+BFF搭建
+BFF对外提供服务
+BFF聚合后端服务
+```
+
+d11
+```
+ES & kibana 安装
+自定义词库
+DSL
+SDK 整合
+ES curd
+```
 
 
+d12
+```
+单元测试
+```
 
+d13
+```
+CDC 方案对比
+go-mysql-transfer
+```
+
+d13
+```
+CDC 方案对比
+go-mysql-transfer
+```
   
