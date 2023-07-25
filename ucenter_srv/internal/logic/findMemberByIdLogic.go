@@ -26,6 +26,13 @@ func NewFindMemberByIdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 
 // 会员查找
 func (l *FindMemberByIdLogic) FindMemberById(in *ucenter.MemberReq) (*ucenter.MemberInfo, error) {
+
+	l.svcCtx.ES.CreateDocument("test_1", "1", `{
+  "title": "One", 
+  "tags": ["ruby"],
+  "post_date":"2009-11-15T13:00:00"
+}`)
+
 	m, e := l.svcCtx.MemberModel.FindOne(l.ctx, in.MemberId)
 	if e != nil {
 		return nil, e
