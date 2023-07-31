@@ -124,9 +124,8 @@ CDC 方案对比
 go-mysql-transfer
 ```
 
-d13
+d14
 ```
-CDC 方案对比
-go-mysql-transfer
+支付宝
 ```
   

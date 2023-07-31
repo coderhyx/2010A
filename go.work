@@ -2,7 +2,10 @@ go 1.19
 
 use (
 	./common
+	./gin
+	./go-alipay
 	./goods_srv
+	./test
 	./ucenter_api
 	./ucenter_srv
 )
