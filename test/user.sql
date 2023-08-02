@@ -1,0 +1,22 @@
+CREATE TABLE `user` (
+                        `id` int(11) NOT NULL AUTO_INCREMENT,
+                        `nickname` varchar(255) NOT NULL,
+                        `mobile` varchar(20) DEFAULT NULL,
+                        `email` varchar(100) DEFAULT NULL,
+                        `password` varchar(255) DEFAULT '123456',
+                        `avatar` varchar(255) DEFAULT NULL,
+                        `birthday` date DEFAULT NULL COMMENT '生日',
+                        `constellation` varchar(255) DEFAULT '' COMMENT '星座',
+                        `sex` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1:男 2:女',
+                        `location` varchar(255) NOT NULL DEFAULT '上海市' COMMENT '所在位置',
+                        `privilege` int(11) NOT NULL DEFAULT '10' COMMENT '10:普通用户 20:体验用户 30:付费用户 50:点评师 100:点评大佬',
+                        `note` text NOT NULL,
+                        `batch` datetime DEFAULT NULL,
+                        `vaild_peroid` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '有效期',
+                        `created_at` datetime DEFAULT NULL,
+                        `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                        `deleted_at` datetime DEFAULT NULL,
+                        `alipay_nickname` varchar(255) DEFAULT '' COMMENT '支付宝名称',
+                        PRIMARY KEY (`id`) USING BTREE,
+                        UNIQUE KEY `email` (`email`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=14004 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT;

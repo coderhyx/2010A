@@ -2,7 +2,7 @@ package logic
 
 import (
 	"2010A/common/feature"
-	"2010A/common/utils"
+	"2010A/common/tools"
 	"context"
 	"errors"
 	"time"
@@ -32,7 +32,7 @@ func NewSendCodeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SendCode
 
 func (l *SendCodeLogic) SendCode(in *ucenter.CodeReq) (*ucenter.NoRes, error) {
 	//1.生成验证码
-	code := utils.Rand4Num()
+	code := tools.Rand4Num()
 	//2.短信平台发送验证
 	sms := feature.UniSMS{
 		AccessKeyId:  l.svcCtx.Config.SMS.AccessKeyId,

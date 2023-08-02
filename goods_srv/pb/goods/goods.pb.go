@@ -7,10 +7,12 @@
 package goods
 
 import (
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
+	"time"
+
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -1070,6 +1072,35 @@ type SearchGoodsResp struct {
 	unknownFields protoimpl.UnknownFields
 
 	Goods []*Goods `protobuf:"bytes,1,rep,name=goods,proto3" json:"goods,omitempty"` //goods
+}
+
+type User struct {
+	ID             int       `json:"id" gorm:"column:id"`
+	Nickname       string    `json:"nickname" gorm:"column:nickname"`
+	Mobile         string    `json:"mobile" gorm:"column:mobile"`
+	Email          string    `json:"email" gorm:"column:email"`
+	Password       string    `json:"password" gorm:"column:password"`
+	Avatar         string    `json:"avatar" gorm:"column:avatar"`
+	Birthday       time.Time `json:"birthday" gorm:"column:birthday"`           // 生日
+	Constellation  string    `json:"constellation" gorm:"column:constellation"` // 星座
+	Sex            int8      `json:"sex" gorm:"column:sex"`                     // 1:男 2:女
+	Location       string    `json:"location" gorm:"column:location"`           // 所在位置
+	Privilege      int       `json:"privilege" gorm:"column:privilege"`         // 10:普通用户 20:体验用户 30:付费用户 50:点评师 100:点评大佬
+	Note           string    `json:"note" gorm:"column:note"`
+	Batch          time.Time `json:"batch" gorm:"column:batch"`
+	VaildPeroid    time.Time `json:"vaild_peroid" gorm:"column:vaild_peroid"` // 有效期
+	CreatedAt      time.Time `json:"created_at" gorm:"column:created_at"`
+	UpdatedAt      time.Time `json:"updated_at" gorm:"column:updated_at"`
+	DeletedAt      time.Time `json:"deleted_at" gorm:"column:deleted_at"`
+	AlipayNickname string    `json:"alipay_nickname" gorm:"column:alipay_nickname"` // 支付宝名称
+}
+
+type UsersResp struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Users []*User `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty"` //users
 }
 
 func (x *SearchGoodsResp) Reset() {
