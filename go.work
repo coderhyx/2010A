@@ -3,6 +3,7 @@ go 1.19
 use (
 	./common
 	./goods_srv
+	./test
 	./ucenter_api
 	./ucenter_srv
 )

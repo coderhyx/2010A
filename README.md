@@ -116,6 +116,7 @@ ES curd
 d12
 ```
 单元测试
+etcd 分布式锁
 ```
 
 d13
@@ -124,9 +125,8 @@ CDC 方案对比
 go-mysql-transfer
 ```
 
-d13
+d14
 ```
-CDC 方案对比
-go-mysql-transfer
+
 ```
   

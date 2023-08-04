@@ -14,3 +14,11 @@ Log:
   Level: info
   #  Path: logs
   Encoding: plain
+
+registry:
+  type: nacos
+  addrs:
+    - localhost:8848
+  namespace: '2262bc21-44a4-4761-8936-f01f3252a655'
+  username: 'nacos'
+  password: 'nacos'
