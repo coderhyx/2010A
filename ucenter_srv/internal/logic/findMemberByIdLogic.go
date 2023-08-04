@@ -26,7 +26,7 @@ func NewFindMemberByIdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 
 // 会员查找
 func (l *FindMemberByIdLogic) FindMemberById(in *ucenter.MemberReq) (*ucenter.MemberInfo, error) {
-
+	l.svcCtx.Cache.SetCtx(l.ctx, "k", 1)
 	l.svcCtx.ES.CreateDocument("test_1", "1", `{
   "title": "One", 
   "tags": ["ruby"],
